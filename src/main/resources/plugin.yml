@@ -1,0 +1,6 @@
+name: TyroPlugin
+version: '${project.version}'
+main: fr.tyrolium.tyroplugin.TyroPlugin
+authors: [Maxime Tournier]
+description: Plugin pour le serveur Minecraft TyroServ
+website: https://tyrolium.fr
