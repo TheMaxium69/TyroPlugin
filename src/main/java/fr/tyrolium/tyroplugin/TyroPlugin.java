@@ -15,11 +15,7 @@ public final class TyroPlugin extends JavaPlugin {
         // Plugin startup logic
         System.out.println("TyroPlugin enabled");
 
-
-        // Excuter
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "broadcast salut je suis TyroPlugin");
-
-
+        // Utilisateur ce connect
         getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onPlayerJoin(PlayerJoinEvent event) {
