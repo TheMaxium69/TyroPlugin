@@ -42,6 +42,10 @@ public class SkinApi {
             JSONObject jsonObject = new JSONObject(jsonResult);
             String status = jsonObject.getString("status");
             String why = jsonObject.getString("why");
+
+            /*
+            * REGLER LE SOUCI AVEC RESULT
+            * */
             String result = jsonObject.getString("result");
 
             System.out.println("Reponse du serveur : " + status);
