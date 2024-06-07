@@ -13,20 +13,15 @@ public class SkinCommand {
         String pseudo = player.getName();
 
 
+        Object stateSkin = SkinApi.getSkinInfo(pseudo);
 
-
-
-
-
-
+        System.out.println(stateSkin);
 
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.schedule(() -> {
             player.performCommand("skin player " + pseudo);
             System.out.println("skin changement");
         }, 5, TimeUnit.SECONDS);
-
-
 
 
     }
