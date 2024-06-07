@@ -12,9 +12,10 @@ import org.json.JSONObject;
 
 public class SkinApi {
 
-    public static Object getSkinInfo(String pseudo) {
+    public static ArrayList<Object> getSkinInfo(String pseudo) {
 
         String request = Global.api_url + "&pseudo=" + pseudo;
+        ArrayList<Object> stateSkin = new ArrayList<>();
 
         try {
             URL url = new URL(request);
@@ -43,50 +44,40 @@ public class SkinApi {
             String status = jsonObject.getString("status");
             String why = jsonObject.getString("why");
 
-            /*
-            * REGLER LE SOUCI AVEC RESULT
-            * */
-            String result = jsonObject.getString("result");
-
             System.out.println("Reponse du serveur : " + status);
             System.out.println("Reponse du serveur : " + why);
-            System.out.println("Reponse du serveur : " + result);
 
-            if (status == "true" && why == "successfully request") {
+            if (status.equals("true") && why.equals("successfully request")) {
 
-                if (result == "no info") {
+                JSONObject resultObject = jsonObject.getJSONObject("result");
 
-                    return "no info";
+                String skin = resultObject.getString("skin");
+                int slim = resultObject.getInt("slim");
 
-                } else {
+                stateSkin.add(skin);
+                stateSkin.add(slim);
 
-                    JSONObject resultObject = jsonObject.getJSONObject("result");
-
-                    String skin = resultObject.getString("skin");
-                    int slim = resultObject.getInt("slim");
-
-                    ArrayList<Object> stateSkin = new ArrayList<>();
-
-                    stateSkin.add(skin);
-                    stateSkin.add(slim);
-
-                    return stateSkin;
-
-                }
+                return stateSkin;
 
             } else {
 
                 System.out.println("[TyroPlugin] Erreur de pseudo");
 
-                return "err";
+                stateSkin.add("err");
+                stateSkin.add("err");
+
+                return stateSkin;
             }
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println("[TyroPlugin] Erreur Java");
 
-            return "err";
+            stateSkin.add("err");
+            stateSkin.add("err");
+
+            return stateSkin;
         }
 
 
