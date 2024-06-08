@@ -17,8 +17,8 @@ public class SkinCommand {
 
         ArrayList<Object> stateSkin = SkinApi.getSkinInfo(pseudo);
 
-        System.out.println(stateSkin);
-        System.out.println(stateSkin.get(0));
+//        System.out.println(stateSkin);
+//        System.out.println(stateSkin.get(0));
 
         String skin = (String) stateSkin.get(0);
         String slim = (String) stateSkin.get(0);
@@ -26,18 +26,18 @@ public class SkinCommand {
         if (skin.equals("vide")) {
 
             executorService.schedule(() -> {
-                System.out.println("skin de "+ pseudo +" update");
+//                System.out.println("skin de "+ pseudo +" update");
                 player.performCommand("skin player " + pseudo);
 
-            }, 5, TimeUnit.SECONDS);
+            }, 2, TimeUnit.SECONDS);
 
         } else if (skin.equals("err")) {
 
             executorService.schedule(() -> {
-                System.out.println("skin de "+ pseudo +" update");
+//                System.out.println("skin de "+ pseudo +" update");
                 player.performCommand("skin player " + pseudo);
 
-            }, 5, TimeUnit.SECONDS);
+            }, 2, TimeUnit.SECONDS);
 
         } else {
 
@@ -49,13 +49,13 @@ public class SkinCommand {
                 textSlim = "";
             }
 
-            System.out.println(urlSkin);
+//            System.out.println(urlSkin);
 
             executorService.schedule(() -> {
-                System.out.println("skin de "+ pseudo +" update");
+//                System.out.println("skin de "+ pseudo +" update");
                 player.performCommand("skin url " + urlSkin + " " + textSlim);
 
-            }, 5, TimeUnit.SECONDS);
+            }, 2, TimeUnit.SECONDS);
 
         }
 

@@ -38,14 +38,14 @@ public class SkinApi {
             // Resultat
             String jsonResult = content.toString();
 
-            System.out.println("Reponse du serveur : " + jsonResult);
+//            System.out.println("Reponse du serveur : " + jsonResult);
 
             JSONObject jsonObject = new JSONObject(jsonResult);
             String status = jsonObject.getString("status");
             String why = jsonObject.getString("why");
 
-            System.out.println("Reponse du serveur : " + status);
-            System.out.println("Reponse du serveur : " + why);
+//            System.out.println("Reponse du serveur : " + status);
+//            System.out.println("Reponse du serveur : " + why);
 
             if (status.equals("true") && why.equals("successfully request")) {
 
@@ -61,7 +61,7 @@ public class SkinApi {
 
             } else {
 
-                System.out.println("[TyroPlugin] Erreur de pseudo");
+//                System.out.println("[TyroPlugin] Erreur de pseudo");
 
                 stateSkin.add("err");
                 stateSkin.add("err");
@@ -72,7 +72,7 @@ public class SkinApi {
 
         } catch (Exception e) {
 //            e.printStackTrace();
-            System.out.println("[TyroPlugin] Erreur Java");
+//            System.out.println("[TyroPlugin] Erreur Java");
 
             stateSkin.add("err");
             stateSkin.add("err");
