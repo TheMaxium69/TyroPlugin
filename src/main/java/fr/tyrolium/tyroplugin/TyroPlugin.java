@@ -70,7 +70,7 @@ public final class TyroPlugin extends JavaPlugin {
                         playerVerif.add(playerName);
                         event.getPlayer().sendTitle("§aConnexion établie", "", 10, 70, 20);
                         // LAISSER LE MOD LE FAIRE ---- event.getPlayer().sendMessage("§f[TyroPlugin] §aConnexion établie !");
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "say tp " + playerName + " dans une autre dimension");
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + playerName + " hub");
 //                    }
 
                 }, 3, TimeUnit.SECONDS);

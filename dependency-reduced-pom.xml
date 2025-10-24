@@ -4,7 +4,7 @@
   <groupId>fr.tyrolium.tyroplugin</groupId>
   <artifactId>TyroPlugin</artifactId>
   <name>TyroPlugin</name>
-  <version>0.3</version>
+  <version>0.4</version>
   <url>https://tyrolium.fr</url>
   <build>
     <resources>

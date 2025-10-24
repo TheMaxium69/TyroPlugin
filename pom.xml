@@ -6,7 +6,7 @@
 
   <groupId>fr.tyrolium.tyroplugin</groupId>
   <artifactId>TyroPlugin</artifactId>
-  <version>0.3</version>
+  <version>0.4</version>
   <packaging>jar</packaging>
 
   <name>TyroPlugin</name>
