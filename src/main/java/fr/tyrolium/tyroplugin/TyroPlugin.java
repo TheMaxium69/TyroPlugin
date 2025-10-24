@@ -2,6 +2,7 @@ package fr.tyrolium.tyroplugin;
 
 import fr.tyrolium.tyroplugin.skin.SkinCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +39,16 @@ public final class TyroPlugin extends JavaPlugin {
             @EventHandler
             public void onPlayerJoin(PlayerJoinEvent event) {
 
-                String playerName = event.getPlayer().getName();
+                Player player = event.getPlayer();
+                String playerName = player.getName();
+
+                World voidWorld = Bukkit.getWorld("world");
+                World hubWorld = Bukkit.getWorld("world_hub");
+
+                if(voidWorld != null) {
+                    player.teleport(voidWorld.getSpawnLocation());
+                }
+
 
                 /*SECURITY*/
                 Runnable titleAnimation = new Runnable() {
@@ -72,7 +82,8 @@ public final class TyroPlugin extends JavaPlugin {
                         // LAISSER LE MOD LE FAIRE ---- event.getPlayer().sendMessage("§f[TyroPlugin] §aConnexion établie !");
 //                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + playerName + " hub");
                         Bukkit.getScheduler().runTask(plugin, () -> {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + playerName + " hub");
+//                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + playerName + " hub");
+                            player.teleport(hubWorld.getSpawnLocation());
                         });
 
 //                    }
