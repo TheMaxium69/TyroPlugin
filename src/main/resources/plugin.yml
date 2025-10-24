@@ -1,6 +1,16 @@
 name: TyroPlugin
 version: '${project.version}'
+api-version: 1.12
 main: fr.tyrolium.tyroplugin.TyroPlugin
 authors: [Maxime Tournier]
 description: Plugin pour le serveur Minecraft TyroServ
 website: https://tyrolium.fr
+commands:
+  hub:
+    description: Téléporte le joueur au hub
+    usage: /hub
+    permission: tyroplugin.hub
+permissions:
+  hubteleporter.hub:
+    description: Permet d'utiliser la commande /hub
+    default: op

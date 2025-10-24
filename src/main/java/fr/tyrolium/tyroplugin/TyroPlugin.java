@@ -2,7 +2,10 @@ package fr.tyrolium.tyroplugin;
 
 import fr.tyrolium.tyroplugin.skin.SkinCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +13,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -20,7 +25,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public final class TyroPlugin extends JavaPlugin {
+public final class TyroPlugin extends JavaPlugin implements Listener {
 
     private static Plugin plugin = null;
     private static ArrayList<String> playerVerif = new ArrayList<String>();
@@ -44,13 +49,20 @@ public final class TyroPlugin extends JavaPlugin {
 
                 World voidWorld = Bukkit.getWorld("world");
                 World hubWorld = Bukkit.getWorld("world_hub");
+                World faction1World = Bukkit.getWorld("world_faction1");
+                World faction2World = Bukkit.getWorld("world_faction2");
+                World minageWorld = Bukkit.getWorld("world_minage");
+                World testWorld = Bukkit.getWorld("test");
+                World test2World = Bukkit.getWorld("test2");
+
+        /************************
+                SECURITY
+         ************************/
 
                 if(voidWorld != null) {
                     player.teleport(voidWorld.getSpawnLocation());
                 }
 
-
-                /*SECURITY*/
                 Runnable titleAnimation = new Runnable() {
                     int count = 0;
 
@@ -80,7 +92,6 @@ public final class TyroPlugin extends JavaPlugin {
                         playerVerif.add(playerName);
                         event.getPlayer().sendTitle("§aConnexion établie", "", 10, 70, 20);
                         // LAISSER LE MOD LE FAIRE ---- event.getPlayer().sendMessage("§f[TyroPlugin] §aConnexion établie !");
-//                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + playerName + " hub");
                         Bukkit.getScheduler().runTask(plugin, () -> {
 //                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + playerName + " hub");
                             player.teleport(hubWorld.getSpawnLocation());
@@ -90,11 +101,86 @@ public final class TyroPlugin extends JavaPlugin {
 
                 }, 3, TimeUnit.SECONDS);
 
-                /*SKIN*/
+        /************************
+                SKIN
+         ************************/
                 SkinCommand.setSkin(event.getPlayer());
+
+
 
             }
 
+        /************************
+         HUB
+         ************************/
+
+            @EventHandler
+            public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
+
+
+                World voidWorld = Bukkit.getWorld("world");
+                World hubWorld = Bukkit.getWorld("world_hub");
+                Player player = event.getPlayer();
+
+                if (player.getWorld() == hubWorld) {
+                    player.getInventory().clear();
+
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "give " + player.getName() + " tyromod:tyrolium_sword 1 0 {display:{Name:Faction_Tyrolium}} ");
+                    });
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "give " + player.getName() + " tyromod:rhodonite_sword 1 0 {display:{Name:Faction_Rhodonite}} ");
+                    });
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "give " + player.getName() + " tyromod:amethys_pickaxe 1 0 {display:{Name:Minage}} ");
+                    });
+
+                } else if (player.getWorld() == voidWorld) {
+                    player.getInventory().clear();
+                }
+
+
+            }
+
+
+            @EventHandler
+            public void onPlayerUseItem(PlayerInteractEvent event) {
+
+                World voidWorld = Bukkit.getWorld("world");
+                World hubWorld = Bukkit.getWorld("world_hub");
+                World faction1World = Bukkit.getWorld("world_faction1");
+                World faction2World = Bukkit.getWorld("world_faction2");
+                World minageWorld = Bukkit.getWorld("world_minage");
+                World testWorld = Bukkit.getWorld("test");
+                World test2World = Bukkit.getWorld("test2");
+
+                Player player = event.getPlayer();
+                ItemStack item = event.getItem();
+
+                if (item == null) return;
+
+                if (player.getWorld() == hubWorld) {
+
+                    if (item.getItemMeta().getDisplayName().equals("Faction_Tyrolium")) {
+                        player.teleport(testWorld.getSpawnLocation());
+                        player.sendMessage("§aTéléportation vers monde Faction Tyrolium !");
+
+                    } else if (item.getItemMeta().getDisplayName().equals("Faction_Rhodonite")) {
+                        player.teleport(test2World.getSpawnLocation());
+                        player.sendMessage("§aTéléportation vers Monde Faction Rhodonite !");
+
+                    } else if (item.getItemMeta().getDisplayName().equals("Minage")) {
+                        player.teleport(minageWorld.getSpawnLocation());
+                        player.sendMessage("§aTéléportation vers Monde Minage !");
+
+                    }
+                }
+            }
+
+
+        /************************
+         SECURITY
+         ************************/
 
             // Player Takes Damage
             @EventHandler
@@ -196,10 +282,53 @@ public final class TyroPlugin extends JavaPlugin {
                 playerVerif.remove(playerName);
             }
 
+
+
         }, plugin);
 
 
     }
+
+    /************************
+            COMMAND
+     ************************/
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("hub")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("Seul un joueur peut utiliser cette commande !");
+                return true;
+            }
+
+            World hubWorld = Bukkit.getWorld("world_hub");
+            Player player = (Player) sender;
+
+            // Vérification de la permission
+            if (!player.hasPermission("hubteleporter.use")) {
+                player.sendMessage("§cVous n'avez pas la permission d'utiliser cette commande !");
+                return true;
+            }
+
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                player.teleport(hubWorld.getSpawnLocation());
+            });
+
+            player.sendMessage("§aTéléportation vers le hub !");
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+    /************************
+     END
+     ************************/
 
     @Override
     public void onDisable() {
@@ -207,6 +336,8 @@ public final class TyroPlugin extends JavaPlugin {
 
         System.out.println("§f[TyroPlugin] §4TyroPlugin disable");
     }
+
+
 
     public Plugin getInstance() {
         return plugin;
